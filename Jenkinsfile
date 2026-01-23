@@ -10,5 +10,17 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            echo 'Pipeline succeeded'
+        }
+        failure {
+            echo 'Pipeline failed – investigate logs'
+        }
+        always {
+            echo 'Pipeline finished (success or failure)'
+        }
+    }
 }
 
