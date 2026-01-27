@@ -2,24 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Run Script') {
+        stage('Checkout') {
             steps {
-                echo 'Running hello.sh'
-                sh './hello.sh'
-                sh 'exit 1'
+                echo 'Checking out code from GitHub'
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Pipeline succeeded'
+        stage('Build Docker Image') {
+            steps {
+                echo 'Building Docker image'
+                sh 'docker build -t jenkins-demo-app .'
+            }
         }
-        failure {
-            echo 'Pipeline failed – investigate logs'
-        }
-        always {
-            echo 'Pipeline finished (success or failure)'
+
+        stage('Run Docker Container') {
+            steps {
+                echo 'Running Docker container'
+                sh 'docker run --rm jenkins-demo-app'
+            }
         }
     }
 }
